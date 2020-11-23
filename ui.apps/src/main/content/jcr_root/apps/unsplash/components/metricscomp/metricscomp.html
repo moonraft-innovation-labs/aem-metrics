@@ -1,0 +1,80 @@
+<sly
+	data-sly-use.commonsTemplates="core/wcm/components/commons/v1/templates.html"
+	data-sly-call="${commonsTemplates.placeholder @ isEmpty=true}"></sly>
+<sly
+	data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+	data-sly-call="${clientlib.all @ categories='unsplash.metricscomp'}" />
+<label for="metrics">Choose a type of metrics:</label>
+<select name="metrics" id="metrics" onchange="metricFunc(this.value)">
+    <option value="Select">Select</option>
+	<option value="counter">Counter (number of times unleash
+		servlet is called)</option>
+	<option value="meter">Meter</option>
+	<option value="timer">timer (time taken to get the response)</option>
+</select>
+<html>
+<head>
+<script>
+
+	var keyword = $('#metrics').val();
+	function addViewers(keyword) {
+		if (keyword == "counter") {
+			metricsViewer.addCounter('#counter-div',
+					"Counter Metrics Viewer Example",
+					"Metric Viewer Example of Counter Metrics",
+					"counter.test.metric.a");
+		} else if (keyword == "timer") {
+			metricsViewer.addTimer('#timer-div',
+					"Timer Metrics Viewer Example",
+					"Metric Viewer Example of Timer Metrics",
+					"timer.test.metric.a");
+		} else if (keyword == "meter") {
+			metricsViewer.addMeter('#meter-div',
+					"Meter Metrics Viewer Example",
+					"Metric Viewer Example of Meter Metrics",
+					"meter.test.metric.a");
+		}
+
+	}
+	function metricFunc(keyword){
+		addViewers(keyword);
+		metricsViewer.init();
+		keepRefreshingViewer(keyword);
+	}
+
+	$(document).ready(function() {
+		//addViewers();
+		//metricsViewer.init();
+		//keepRefreshingViewer();
+	});
+
+	function keepRefreshingViewer(keyword) {
+		refreshViewer(keyword);
+		setInterval(refreshViewer, 1000);
+	}
+
+	//fetching metrics from an endpoint using JQuery ajax call
+	function refreshViewer(keyword) {
+		var pagePath = window.location.href;
+		pagePath = pagePath.substr(0, pagePath.length - 5);
+
+		$.ajax({
+			contentType : "application/json",
+			url : "/bin/custmetric?query=" + keyword,
+			success : function(data) {
+				metricsViewer.refresh(data);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert("Error - " + xhr.status + "Message: " + thrownError);
+			},
+			async : true
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="counter-div"></div>
+	<div id="timer-div"></div>
+	<div id="meter-div"></div>
+</body>
+</html>

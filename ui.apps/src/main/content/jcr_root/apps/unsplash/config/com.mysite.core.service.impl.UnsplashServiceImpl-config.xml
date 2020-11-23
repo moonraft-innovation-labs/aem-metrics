@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+          xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
+          unsplashUrl="https://api.unsplash.com/photos"
+          unsplashSearchUrl="https://api.unsplash.com/search/photos"
+          clientId="3j8hMChkBOmLf_y7xHrgKGNPFV3w1cEHNBvnui7224o"
+          limitPerPage="20"
+          appName="aem-asset-finder"/>
