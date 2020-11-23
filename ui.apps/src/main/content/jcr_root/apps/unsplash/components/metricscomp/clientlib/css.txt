@@ -1,5 +1,3 @@
 #base=css
 metricsviewer.css
-example.css
-highlightjs-default.css
 metricsgraphics.css

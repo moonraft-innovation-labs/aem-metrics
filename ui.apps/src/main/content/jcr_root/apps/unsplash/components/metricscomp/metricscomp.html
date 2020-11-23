@@ -4,19 +4,10 @@
 <sly
 	data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
 	data-sly-call="${clientlib.all @ categories='unsplash.metricscomp'}" />
-<label for="metrics">Choose a type of metrics:</label>
-<select name="metrics" id="metrics" onchange="metricFunc(this.value)">
-    <option value="Select">Select</option>
-	<option value="counter">Counter (number of times unleash
-		servlet is called)</option>
-	<option value="meter">Meter</option>
-	<option value="timer">timer (time taken to get the response)</option>
-</select>
+<div id="metrics" style="display:none;">${properties.metric}</div>
 <html>
 <head>
 <script>
-
-	var keyword = $('#metrics').val();
 	function addViewers(keyword) {
 		if (keyword == "counter") {
 			metricsViewer.addCounter('#counter-div',
@@ -36,16 +27,12 @@
 		}
 
 	}
-	function metricFunc(keyword){
+
+	$(document).ready(function() {
+		var keyword = $('#metrics').text();
 		addViewers(keyword);
 		metricsViewer.init();
 		keepRefreshingViewer(keyword);
-	}
-
-	$(document).ready(function() {
-		//addViewers();
-		//metricsViewer.init();
-		//keepRefreshingViewer();
 	});
 
 	function keepRefreshingViewer(keyword) {
@@ -55,9 +42,6 @@
 
 	//fetching metrics from an endpoint using JQuery ajax call
 	function refreshViewer(keyword) {
-		var pagePath = window.location.href;
-		pagePath = pagePath.substr(0, pagePath.length - 5);
-
 		$.ajax({
 			contentType : "application/json",
 			url : "/bin/custmetric?query=" + keyword,
