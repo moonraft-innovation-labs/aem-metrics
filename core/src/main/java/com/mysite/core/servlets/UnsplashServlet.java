@@ -48,8 +48,6 @@ public class UnsplashServlet extends SlingAllMethodsServlet {
 
 	private Counter counter;
 
-	private Histogram histogram;
-
 	private Timer timer;
 
 	private Meter meter;
@@ -69,15 +67,14 @@ public class UnsplashServlet extends SlingAllMethodsServlet {
 		long startTime = System.nanoTime();
 		final HttpResponse httpResponse = httpClient.execute(httpGet);
 		long elapsedTime = System.nanoTime() - startTime;
-		
-		//check the elapsed time
+
+		// check the elapsed time
 		timer.update(elapsedTime, TimeUnit.NANOSECONDS);
 		// increment counter after calling api
 		counter.increment();
-		//meter measures rate of requests per second
+		// meter measures rate of requests per second
 		meter.mark();
-		
-		
+
 		final HttpEntity entity = httpResponse.getEntity();
 		String content = EntityUtils.toString(entity);
 		if (StringUtils.isNotBlank(query)) {
@@ -88,20 +85,16 @@ public class UnsplashServlet extends SlingAllMethodsServlet {
 		try {
 			responseHTML = htmlBuilder.getHTMLResponse(content);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		response.getWriter().write(responseHTML);
-		
-		//histogram to measure the size of response
-		histogram.update(content.length());
+
 	}
 
 	private void initialiseMetrics() {
 		counter = metricsService.counter("responseCounter15");
 		timer = metricsService.timer("responseTimer15");
-		histogram = metricsService.histogram("responseHistogram11");
 		meter = metricsService.meter("responseMeter15");
 	}
 
