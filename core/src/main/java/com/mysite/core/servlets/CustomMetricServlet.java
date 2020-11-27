@@ -61,10 +61,10 @@ public class CustomMetricServlet extends SlingSafeMethodsServlet {
 		JSONObject finalJson = new JSONObject();
 		try {
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-			ObjectName countObjName = new ObjectName("unsplash.core:name=responseCounter15,type=Metrics");
+			ObjectName countObjName = new ObjectName("unsplash.core:name=metricCounter,type=Metrics");
 			Object count = mbs.getAttribute(countObjName, "Count");
 
-			ObjectName timerObjName = new ObjectName("unsplash.core:name=responseTimer15,type=Metrics");
+			ObjectName timerObjName = new ObjectName("unsplash.core:name=metricTimer,type=Metrics");
 			Object countTimer = mbs.getAttribute(timerObjName, "Count");
 			Object max = mbs.getAttribute(timerObjName, "Max");
 			Object min = mbs.getAttribute(timerObjName, "Min");
@@ -89,7 +89,7 @@ public class CustomMetricServlet extends SlingSafeMethodsServlet {
 					(double) oneMinuteRate, (double) fiveMinuteRate, (double) meanRate, (String) durationUnit,
 					(String) rateUnit, (long) countTimer);
 
-			ObjectName meterObjName = new ObjectName("unsplash.core:name=responseMeter15,type=Metrics");
+			ObjectName meterObjName = new ObjectName("unsplash.core:name=metricMeter,type=Metrics");
 			Object countMeter = mbs.getAttribute(meterObjName, "Count");
 			Object m15_rate_Meter = mbs.getAttribute(meterObjName, "FifteenMinuteRate");
 			Object m1_rate_Meter = mbs.getAttribute(meterObjName, "OneMinuteRate");

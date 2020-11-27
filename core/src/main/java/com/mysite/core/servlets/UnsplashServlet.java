@@ -64,12 +64,11 @@ public class UnsplashServlet extends SlingAllMethodsServlet {
 		HttpGet httpGet = new HttpGet(extractUrl(query, pageNum));
 		final CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		httpGet.addHeader("Content-Type", "application/json");
-		long startTime = System.nanoTime();
-		final HttpResponse httpResponse = httpClient.execute(httpGet);
-		long elapsedTime = System.nanoTime() - startTime;
 
-		// check the elapsed time
-		timer.update(elapsedTime, TimeUnit.NANOSECONDS);
+		// amount of time it takes to process each request
+		Timer.Context context = timer.time();
+		final HttpResponse httpResponse = httpClient.execute(httpGet);
+		context.stop();
 		// increment counter after calling api
 		counter.increment();
 		// meter measures rate of requests per second
@@ -93,9 +92,9 @@ public class UnsplashServlet extends SlingAllMethodsServlet {
 	}
 
 	private void initialiseMetrics() {
-		counter = metricsService.counter("responseCounter15");
-		timer = metricsService.timer("responseTimer15");
-		meter = metricsService.meter("responseMeter15");
+		counter = metricsService.counter("metricCounter");
+		timer = metricsService.timer("metricTimer");
+		meter = metricsService.meter("metricMeter");
 	}
 
 	/**
