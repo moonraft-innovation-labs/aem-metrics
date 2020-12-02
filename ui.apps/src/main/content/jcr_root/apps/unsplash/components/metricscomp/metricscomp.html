@@ -44,7 +44,7 @@
 	function refreshViewer(keyword) {
 		$.ajax({
 			contentType : "application/json",
-			url : "/bin/custmetric?query=" + keyword,
+			url : "/bin/custmetric?query=" + $('#metrics').text(),
 			success : function(data) {
 				metricsViewer.refresh(data);
 			},
