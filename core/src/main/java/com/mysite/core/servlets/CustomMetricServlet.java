@@ -161,7 +161,7 @@ public class CustomMetricServlet extends SlingSafeMethodsServlet {
 			timerJsonA.put("rate_units", bean.getRate_units());
 
 			JSONObject json = new JSONObject();
-			json.put("counter.test.metric.a", timerJsonA);
+			json.put("timer.test.metric.a", timerJsonA);
 
 			timerJson.put("version", "3.0.0");
 			timerJson.put("timers", json);
