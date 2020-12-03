@@ -3,6 +3,6 @@
           xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
           unsplashUrl="https://api.unsplash.com/photos"
           unsplashSearchUrl="https://api.unsplash.com/search/photos"
-          clientId="3j8hMChkBOmLf_y7xHrgKGNPFV3w1cEHNBvnui7224o"
+          clientId="<<Put your client id here>>"
           limitPerPage="20"
           appName="aem-asset-finder"/>
